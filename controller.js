@@ -1,14 +1,20 @@
 class PokeController {
-  constructor(model, view) {
+  constructor(model, viewHeader, viewList, viewPokemon) {
     this.model = model;
-    this.view = view;
-    this.displayPokemon(this.model.pokemons[2]);
-
-    // displayChange = () =>{
-
-    // }
+    this.root = document.getElementById("root");
+    this.viewHeader = viewHeader;
+    // this.viewList = viewList;
+    this.viewPokemon = viewPokemon;
+    this.displayListView(this.model.pokemons);
+    // this.root.append(this.viewHeader, this.viewList, this.viewPokemon);
   }
-  displayPokemon = (poke) => {
-    this.view.displayPokemon(poke);
+
+  displayListView = (pokemons) => {
+    this.viewList.renderList(pokemons);
   };
+
+  // displayHeader = () => {
+  //   console.log(this);
+  //   this.viewHeader.renderHeader();
+  // };
 }

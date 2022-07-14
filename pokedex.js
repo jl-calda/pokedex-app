@@ -1,10 +1,18 @@
+let model = new PokedexModel();
 async function pokedex() {
-  let model = new PokedexModel();
   await model._initPokemons();
-  const header = new HeaderView()._render();
-  console.log(header);
-  const controller = new PokeController(model, new PokedexView(header));
+  const header = new HeaderView();
+  const listView = new ListView();
+  const pokemon = new PokemonView();
+  const controller = new PokeController(model, header, listView, pokemon);
   return controller;
 }
 
+const listView = new ListView();
 pokedex();
+// const pokedex = new PokeController(
+//   new PokedexModel(),
+//   new HeaderView(),
+//   new ListView(),
+//   new PokemonView()
+// );

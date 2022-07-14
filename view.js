@@ -13,7 +13,7 @@ class HeaderView extends View {
   constructor() {
     super();
     //header
-    this.header_container = this._createElement("div");
+    this.header_container = document.getElementById("header");
     this.form_search = this._createElement("form");
     this.title = this._createElement("h1");
     this.title.textContent = "Pokedex";
@@ -24,34 +24,60 @@ class HeaderView extends View {
     this.header_container.append(this.title, this.form_search);
     //
   }
-  _render() {
-    return this.header_container;
+
+  handleSearch(handler) {
+    this.form_search.addEventListener("change", (e) => {
+      e.preventDefault();
+      console.log("handleSearch");
+    });
   }
 }
 
-class PokedexView extends View {
+class ListView extends View {
+  constructor() {
+    super();
+    this.list_container = document.getElementById("list-container");
+    this.filter_bar = this._createElement("div");
+    this.filter_bar.textContent = "FILTER BAR";
+    this.list = this._createElement("ul");
+    this.list_container.append(this.filter_bar, this.list);
+  }
+
+  renderList(pokemons) {
+    console.log(pokemons);
+    const items = pokemons.map((pokemon) => {
+      const li = this._createElement("li");
+      const h3 = this._createElement("h4");
+      h3.textContent = pokemon.name;
+      const types = pokemon.type.map((type) => {
+        const span = this._createElement("span");
+        span.textContent = type;
+        return span;
+      });
+      li.append(h3, ...types);
+      return li;
+    });
+    this.list.append(...items);
+
+    return this;
+  }
+}
+
+class PokemonView extends View {
   constructor(header) {
     super();
-    this.root = document.getElementById("root");
-    this.pokedex = this._createElement("div");
-    this.header = header;
-
-    this.list_container = this._createElement("div");
-    this.list = this._createElement("ul");
-    this.pokemon = this._createElement("div");
-    this.root.append(this.header, this.pokemon);
+    this.pokemon_container = this._createElement("div");
   }
 
-  displayPokemon(poke) {
+  displayPokemon(pokemon) {
     const img = this._createElement("img");
-    console.log(poke);
-    img.srcset = poke.img;
-    this.pokemon.append(img);
-  }
-}
-
-class ListView {
-  constructor() {
-    this.list;
+    img.src = pokemon.img;
+    const title = this._createElement("h3");
+    title.textContent = pokemon.name;
+    const weight = this._createElement("p");
+    weight.textContent = `Weight : ${pokemon.weight}`;
+    const height = this._createElement("p");
+    height.textContent = `Height : ${pokemon.height}`;
+    this.pokemon_container.append(img, title, weight, height);
   }
 }
