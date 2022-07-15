@@ -1,7 +1,7 @@
 class PokedexModel {
   #url;
   constructor() {
-    this.#url = 'https://pokeapi.co/api/v2/pokemon?limit=1154';
+    this.#url = "https://pokeapi.co/api/v2/pokemon?limit=1154";
     this.pokemons = [];
     this.types = [];
     this.initialListCount = 15;
@@ -10,24 +10,24 @@ class PokedexModel {
     this.showPokemonList = [];
     this.initColors = [];
     this.colors = [
-      '#A6B91A',
-      '#705746',
-      '#6F35FC',
-      '#F7D02C',
-      '#D685AD',
-      '#C22E28',
-      '#EE8130',
-      '#A98FF3',
-      '#735797',
-      '#7AC74C',
-      '#E2BF65',
-      '#96D9D6',
-      '#A8A77A',
-      '#A33EA1',
-      '#F95587',
-      '#B6A136',
-      '#B7B7CE',
-      '#6390F0',
+      "#A6B91A",
+      "#705746",
+      "#6F35FC",
+      "#F7D02C",
+      "#D685AD",
+      "#C22E28",
+      "#EE8130",
+      "#A98FF3",
+      "#735797",
+      "#7AC74C",
+      "#E2BF65",
+      "#96D9D6",
+      "#A8A77A",
+      "#A33EA1",
+      "#F95587",
+      "#B6A136",
+      "#B7B7CE",
+      "#6390F0",
     ];
   }
 
@@ -43,7 +43,8 @@ class PokedexModel {
         const pokemon = {
           name: data.name,
           height: data.height,
-          img: data.sprites.other['official-artwork'].front_default,
+          logo: data.sprites.front_default,
+          img: data.sprites.other["official-artwork"].front_default,
           type: data.types.map((type) => type.type.name),
           weight: data.weight,
         };
@@ -91,6 +92,24 @@ class PokedexModel {
     this.initColors = colors;
   }
 
+  resetListPokemon() {
+    this.pokemonList = this.pokemons.slice();
+    while (this.pokemonList.length > this.initialListCount) {
+      const length = this.pokemonList.length;
+      this.pokemonList.splice(
+        Math.floor(Math.random() * (length - 0 + 1) + 0),
+        1
+      );
+    }
+    this.showPokemon = this.pokemonList[0];
+    const colors = this.showPokemon.type.map(
+      (type) => this.colors[this.types.indexOf(type)]
+    );
+    this.initColors = colors;
+    this.displayPokemon(this.showPokemon, colors);
+    this.displayListView(this.pokemonList, this.colors, this.types);
+  }
+
   filterListPokemon(type) {
     const filteredPokemons = this.pokemons.filter((pokemon) =>
       pokemon.type.includes(type)
@@ -101,23 +120,20 @@ class PokedexModel {
       (type) => this.colors[this.types.indexOf(type)]
     );
     this.displayPokemon(this.showPokemon, colors);
-    this.displayListView(this.pokemonList);
+    this.displayListView(this.pokemonList, this.colors, this.types);
   }
 
   changeShowPokemon(id) {
-    // console.log(this.pokemons);
     this.showPokemon = this.pokemonList[Number(id)];
-    console.log(this.showPokemon);
     const colors = this.showPokemon.type.map(
       (type) => this.colors[this.types.indexOf(type)]
     );
 
     this.displayPokemon(this.showPokemon, colors);
-    // console.log('pokemon changed');
   }
 
   changeListPokemon(text) {
-    const filteredPokemons = this.pokemons.filter((pokemon) => {
+    const filteredPokemons = this.pokemonList.filter((pokemon) => {
       return pokemon.name.match(text);
     });
     this.pokemonList = filteredPokemons;
@@ -126,9 +142,10 @@ class PokedexModel {
       (type) => this.colors[this.types.indexOf(type)]
     );
     this.displayPokemon(this.showPokemon, colors);
-    this.displayListView(this.pokemonList);
+    this.displayListView(this.pokemonList, this.colors, this.types);
   }
 }
+
 // Bug Type: #A6B91A
 // Dark Type: #705746
 // Dragon Type: #6F35FC
