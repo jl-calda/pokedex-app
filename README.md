@@ -1,7 +1,7 @@
 # pokedex-app
 Pokedex app using vanilla javascript
 
-Link to github pages in this `Link`(https://jlcaldadev23.github.io/pokedex-app/)
+Link to github pages in this `Link`(https://jl-calda.github.io/pokedex-app/)
 
 # Goals when doing this app
 1) Refine javascript skills
